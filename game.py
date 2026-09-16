@@ -48,39 +48,38 @@ while True:
             print('Please enter a number greater than 0.')
             continue
 
-     except ValueError:
-         print('Please enter a whole number.')
-         continue
- 
-     total_drinks += amount
- 
-     # Simplified game BAC calculation
-     # 3 beers = 0.05 BAC
-     ba += (alcohol * amount) * (0.05 / (1.4 * 3))
- 
-     print()
-     print(f'You drank {amount} x {drink}.')
-     print(f'Total drinks: {total_drinks}')
-     print(f'Estimated BAC: {ba:.3f}')
- 
- 
- print()
- print('--------------------------------')
- print('GAME SUMMARY')
- print('--------------------------------')
- print(f'Total drinks: {total_drinks}')
- print(f'Estimated BAC: {ba:.3f}')
- print('The game is now calculating the consequences...')
+    except ValueError:
+        print('Please enter a whole number.')
+        continue
 
- if ba >= 1:
-     print('GODDAM, your dead. At this stage there would be more than a kilo of alcohol in your blood stream!')
- 
- elif ba >= 0.2:
-     print('At over 0.2 BAC, you are either about to pass out, or black out.')
- 
- elif ba >= 0.1:
-     print('At over 0.1 BAC, you are struggling to speak, have a loss of motor skills and inhibitions.')
- 
- elif ba >= 0.05:
-     print('Your estimated BAC is 0.05 or higher. Driving in this state is illegal.')
-   
+    total_drinks += amount
+
+    # Simplified game BAC calculation
+    # 3 beers = 0.05 BAC
+    ba += (alcohol * amount) * (0.05 / (1.4 * 3))
+
+    print()
+    print(f'You drank {amount} x {drink}.')
+    print(f'Total drinks: {total_drinks}')
+    print(f'Estimated BAC: {ba:.3f}')
+
+
+print()
+print('--------------------------------')
+print('GAME SUMMARY')
+print('--------------------------------')
+print(f'Total drinks: {total_drinks}')
+print(f'Estimated BAC: {ba:.3f}')
+print('The game is now calculating the consequences...')
+
+if ba >= 1:
+    print('GODDAM, your dead. At this stage there would be more than a kilo of alcohol in your blood stream!')
+
+elif ba >= 0.2:
+    print('At over 0.2 BAC, you are either about to pass out, or black out.')
+
+elif ba >= 0.1:
+    print('At over 0.1 BAC, you are struggling to speak, have a loss of motor skills and inhibitions.')
+
+elif ba >= 0.05:
+    print('Your estimated BAC is 0.05 or higher. Driving in this state is illegal.')
