@@ -1,205 +1,53 @@
+```html
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alcohol Consequence Game</title>
 
-```
-<title>Alcohol Consequence Game</title>
-
-<!-- PyScript -->
-<link rel="stylesheet"
-      href="https://pyscript.net/releases/2025.2.2/core.css">
-
-<script type="module"
-        src="https://pyscript.net/releases/2025.2.2/core.js"></script>
-
-<style>
-    * {
-        box-sizing: border-box;
-    }
-
-    body {
-        margin: 0;
-        min-height: 100vh;
-        background: #0b0b0f;
-        color: #f2f2f2;
-        font-family: Arial, Helvetica, sans-serif;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        padding: 20px;
-    }
-
-    .game {
-        width: 100%;
-        max-width: 900px;
-        min-height: 600px;
-
-        background: #15151c;
-        border: 1px solid #2b2b36;
-        border-radius: 18px;
-
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-
-        display: flex;
-        flex-direction: column;
-
-        overflow: hidden;
-    }
-
-    .header {
-        padding: 24px 30px;
-        border-bottom: 1px solid #2b2b36;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .header h1 {
-        margin: 0;
-        font-size: 24px;
-    }
-
-    .status {
-        font-size: 14px;
-        color: #9999a8;
-    }
-
-    #output {
-        flex: 1;
-        padding: 30px;
-
-        overflow-y: auto;
-
-        font-family: "Consolas", "Courier New", monospace;
-        font-size: 16px;
-        line-height: 1.7;
-
-        white-space: pre-wrap;
-    }
-
-    .input-area {
-        padding: 20px 30px;
-        border-top: 1px solid #2b2b36;
-
-        display: flex;
-        gap: 12px;
-    }
-
-    #command {
-        flex: 1;
-
-        background: #0d0d12;
-        color: white;
-
-        border: 1px solid #3a3a48;
-        border-radius: 10px;
-
-        padding: 14px 16px;
-
-        font-size: 16px;
-        outline: none;
-    }
-
-    #command:focus {
-        border-color: #77778c;
-    }
-
-    button {
-        background: #f2f2f2;
-        color: #111;
-
-        border: none;
-        border-radius: 10px;
-
-        padding: 14px 24px;
-
-        font-size: 16px;
-        font-weight: bold;
-
-        cursor: pointer;
-
-        transition: 0.15s;
-    }
-
-    button:hover {
-        transform: translateY(-1px);
-        background: white;
-    }
-
-    button:active {
-        transform: translateY(0);
-    }
-
-    .warning {
-        color: #ffcc66;
-    }
-
-    @media (max-width: 600px) {
-        .game {
-            min-height: 90vh;
-        }
-
-        .header {
-            padding: 20px;
-        }
-
-        #output {
-            padding: 20px;
-        }
-
-        .input-area {
-            padding: 15px;
-        }
-
-        button {
-            padding: 14px 18px;
-        }
-    }
-</style>
-```
-
+    <script type="module"
+        src="https://pyscript.net/releases/2026.7.3/core.js">
+    </script>
 </head>
 
 <body>
 
-```
-<main class="game">
+<pre id="output">Loading game...</pre>
 
-    <header class="header">
-        <h1>Alcohol Consequence Game</h1>
-        <div class="status">Python • PyScript</div>
-    </header>
+<script type="py">
+import builtins
+from js import window, document
+from pyscript import fetch
 
-    <section id="output">
-        Loading game...
-    </section>
 
-    <section class="input-area">
+# Make Python input() use a browser popup
+def browser_input(prompt=""):
+    result = window.prompt(str(prompt))
+    if result is None:
+        return ""
+    return str(result)
 
-        <input
-            id="command"
-            type="text"
-            autocomplete="off"
-            placeholder="Enter your answer..."
-        >
 
-        <button py-click="handle_input()">
-            Enter
-        </button>
+# Make Python print() appear on the webpage
+def browser_print(*args, sep=" ", end="\n", **kwargs):
+    text = sep.join(str(x) for x in args) + end
 
-    </section>
+    output = document.getElementById("output")
+    output.textContent += text
 
-</main>
 
-<!-- Your Python game -->
-<script type="py" src="./game.py"></script>
-```
+# Replace Python's normal input/print
+builtins.input = browser_input
+builtins.print = browser_print
+
+
+# Load the unchanged game.py
+code = await fetch("./game.py").text()
+
+# Run it
+exec(code, {"__name__": "__main__"})
+</script>
 
 </body>
 </html>
+```
