@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Alcohol Consequence Game</title>
+
+    <script type="module"
+        src="https://pyscript.net/releases/2025.2.2/core.js">
+    </script>
+</head>
+
+<body>
+
+<pre id="output">Loading...</pre>
+
+<script type="py">
+import builtins
+from js import window, document
+
+def browser_input(prompt=""):
+    answer = window.prompt(str(prompt))
+    if answer is None:
+        return ""
+    return str(answer)
+
+def browser_print(*args, sep=" ", end="\n", **kwargs):
+    output = document.getElementById("output")
+    output.textContent += sep.join(str(x) for x in args) + end
+
+builtins.input = browser_input
+builtins.print = browser_print
+
+response = await window.fetch("./game.py")
+code = await response.text()
+
+exec(code, {"__name__": "__main__"})
+</script>
+
+</body>
+</html>
