@@ -1,4 +1,4 @@
-html
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,45 +6,34 @@ html
     <title>Alcohol Consequence Game</title>
 
     <script type="module"
-        src="https://pyscript.net/releases/2026.7.3/core.js">
+        src="https://pyscript.net/releases/2025.2.2/core.js">
     </script>
 </head>
 
 <body>
 
-<pre id="output">Loading game...</pre>
+<pre id="output">Loading...</pre>
 
 <script type="py">
 import builtins
 from js import window, document
-from pyscript import fetch
 
-
-# Make Python input() use a browser popup
 def browser_input(prompt=""):
-    result = window.prompt(str(prompt))
-    if result is None:
+    answer = window.prompt(str(prompt))
+    if answer is None:
         return ""
-    return str(result)
+    return str(answer)
 
-
-# Make Python print() appear on the webpage
 def browser_print(*args, sep=" ", end="\n", **kwargs):
-    text = sep.join(str(x) for x in args) + end
-
     output = document.getElementById("output")
-    output.textContent += text
+    output.textContent += sep.join(str(x) for x in args) + end
 
-
-# Replace Python's normal input/print
 builtins.input = browser_input
 builtins.print = browser_print
 
+response = await window.fetch("./game.py")
+code = await response.text()
 
-# Load the unchanged game.py
-code = await fetch("./game.py").text()
-
-# Run it
 exec(code, {"__name__": "__main__"})
 </script>
 
